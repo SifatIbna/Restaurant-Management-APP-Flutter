@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:food_app/screens/meal_detail_screen.dart';
+import 'package:food_app/screens/tab_screen_bottom.dart';
 
 import 'file:///T:/WorkSpace/Developing/Flutter/food_app/lib/screens/category_meals_screen.dart';
 
@@ -38,9 +39,30 @@ class MyApp extends StatelessWidget {
       // home: CategoriesScreen(),
       initialRoute: '/',
       routes: {
-        '/': (ctx) => CategoriesScreen(),
+        '/': (ctx) => BottomTabScreen(),
         CategoryMealsScreen.routeName: (ctx) => CategoryMealsScreen(),
         MealDetailScreen.routeName: (ctx) => MealDetailScreen(),
+      },
+
+      /// On Generate Route needed if some unexpected routing happens in
+      /// the code. It's kind a fail safe
+
+      onGenerateRoute: (settings) {
+        print(settings.arguments);
+        // if(settings.arguments == '/meal-detail'){
+        //   return ...
+        // } else if(settings.arguments == '/something-else'){
+        //   return ...
+        // }
+
+        return MaterialPageRoute(builder: (ctx) => CategoriesScreen());
+      },
+
+      ///UnknownRoute calls if flutter fails to call routes and onGenerateRoute
+      /// it's making sure there's no exception generated
+
+      onUnknownRoute: (settings) {
+        return MaterialPageRoute(builder: (ctx) => CategoriesScreen());
       },
     );
   }
